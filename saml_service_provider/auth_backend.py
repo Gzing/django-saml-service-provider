@@ -1,9 +1,10 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 
 class SAMLServiceProviderBackend(object):
 
     def authenticate(self, saml_authentication=None):
+        User = get_user_model()
         if not saml_authentication:  # Using another authentication method
             return None
 
@@ -20,8 +21,8 @@ class SAMLServiceProviderBackend(object):
             return user
         return None
 
-
     def get_user(self, user_id):
+        User = get_user_model()
         try:
             return User.objects.get(pk=user_id)
         except User.DoesNotExist:
